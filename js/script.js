@@ -22,9 +22,12 @@ for(i=0;i<6;i++){
   orderedShoe = orderedShoe.concat(deck);
 }
 //create a shuffled shoe of 6 decks
-var shoe ;
-
-
+var shoe=[] ;
+while (orderedShoe.length >0) {
+  var i = Math.floor(Math.random()*(orderedShoe.length+1)); //pick an random index of orderedShoe
+  shoe = shoe.concat(orderedShoe.splice(i,1));// take card of that index and put in the shoe
+}
+console.log(shoe);
 
 var playerScore = 0;
 var casinoScore = 0;
