@@ -5,24 +5,31 @@ class Card {
   }
 }
 
+// create a deck of 52 cards
 var suits = ["♠","♥","♦","♣"] ;
 var ranks = ["K","Q","J","10","9","8","7","6","5","4","3","2","1"];
-var deck = [] /*52 cards*/
+var deck = [];
 for (var suit of suits){
   for (var rank of ranks){
     var i = new Card(rank,suit)
-    console.log(i);
     deck.push(i);
   }
 }
 
-console.log(deck);
+//create an ordered shoe of 6 decks
+var orderedShoe = [];
+for(i=0;i<6;i++){
+  orderedShoe = orderedShoe.concat(deck);
+}
+//create a shuffled shoe of 6 decks
+var shoe ;
 
-var shoe = [] //6*52 shuffled cards
+
+
 var playerScore = 0;
 var casinoScore = 0;
-var cash= 1000;
-var cardCount; /**/
+var cash = 1000;
+var cardCount;
 var bet;
 /*
 function makeBet() ;
