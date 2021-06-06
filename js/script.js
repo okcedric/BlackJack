@@ -7,13 +7,15 @@ class Card {
 }
 
 var blackJack = new Card ("J","♠",10);
+var suits = ["♠","♥","♦","♣"] ;
+var rank = ["K","Q","J","10","9","8","7","6","5","4","3","2","1"];
 var deck = [] /*52 cards*/
 var shoe = [] /*6*52 shuffled cards t*/
 var playerScore = 0;
 var casinoScore = 0;
 var cash= 1000;
-var cardCount /**/
-var bet
+var cardCount; /**/
+var bet;
 function makeBet() ;
 function shuffle();
 function showCard;
@@ -23,6 +25,4 @@ function casinoPlay();
 function pay();
 function setGame(); /*draw cards for both casino and player then calculate and show player's score */
 function runGame(); /* bet set hit playerPlay casinoPlay pay*/
-
-
 /*if cardCount > 52*2 run a turn else shuffle then run a game*/
