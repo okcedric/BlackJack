@@ -17,8 +17,6 @@ function  makeDeck(){
   return deck;
 }
 const deck=makeDeck();
-var playerScore = 0;
-var casinoScore = 0;
 var cash = 1000;
 var cardCount;
 var bet;
@@ -78,45 +76,60 @@ function drawHidden(){
 casinoSide.appendChild(card);
 return topCard
 }
-function reveal(){
-  var htmlCard = document.getElementById('hidden');
-  htmlCard.setAttribute('id','revealed');
-  var card = casinoHand[1];
-  showCard(card,htmlCard);
 
-}
 //scoreCalc
 
 function scoreCalc(hand){
   var score=0;
+  var anyAces = false;
 
   for (let card of hand ){
     if (!parseInt(card.rank)){
       score +=10;
     }else{
       score += parseInt(card.rank);
+      if (card.rank == 1){
+        anyAces = true;
+      }
     }
+}
+
+// Ace's case
+if ((score == 11)&&(hand.length = 2) && (anyAces)){
+  score = 'BlackJack'
+}else if((score <12) && anyAces){
+  score = (score+10)+ " / " + score ;
 }
 return score ;
 }
 
 function scoreShow(score,side){
 var scoreHeader = side.nextElementSibling;
-console.log(scoreHeader);
 scoreHeader.innerHTML = score;
+return score;
 }
-casinoHand.push(drawCard(casinoSide));
-playerHand.push(drawCard(playerSide));
-casinoHand.push(drawHidden());
-playerHand.push(drawCard(playerSide));
-scoreShow(scoreCalc(playerHand),playerSide);
-/*
-function drawCard;
-function hit() ; //draws a card
-function playerPlay();
-function casinoPlay();
-function pay();
-function setGame(); //draw cards for both casino and player then calculate and show player's score
-function runGame(); // bet set hit playerPlay casinoPlay pay
-//if cardCount > 52*2 run a turn else shuffle then run a game
-*/
+
+function casinoDraw(){
+  casinoHand.push(drawCard(casinoSide));
+  return scoreShow(scoreCalc(casinoHand),casinoSide);
+}
+function playerDraw(){
+  playerHand.push(drawCard(playerSide));
+  return scoreShow(scoreCalc(playerHand),playerSide);
+}
+function reveal(){
+  var htmlCard = document.getElementById('hidden');
+  htmlCard.setAttribute('id','revealed');
+  var card = casinoHand[1];
+  showCard(card,htmlCard);
+  return scoreShow(scoreCalc(casinoHand),casinoSide);
+}
+function setGame(){
+  casinoDraw();
+  playerDraw();
+  casinoHand.push(drawHidden());
+  return playerDraw();
+}
+var playerScore = setGame();
+
+if playerScore
