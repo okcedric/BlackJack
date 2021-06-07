@@ -85,13 +85,31 @@ function reveal(){
   showCard(card,htmlCard);
 
 }
+//scoreCalc
+
+function scoreCalc(hand){
+  var score=0;
+
+  for (let card of hand ){
+    if (!parseInt(card.rank)){
+      score +=10;
+    }else{
+      score += parseInt(card.rank);
+    }
+}
+return score ;
+}
+
+function scoreShow(score,side){
+var scoreHeader = side.nextElementSibling;
+console.log(scoreHeader);
+scoreHeader.innerHTML = score;
+}
 casinoHand.push(drawCard(casinoSide));
 playerHand.push(drawCard(playerSide));
 casinoHand.push(drawHidden());
 playerHand.push(drawCard(playerSide));
-
-console.log(casinoHand);
-console.log(playerHand);
+scoreShow(scoreCalc(playerHand),playerSide);
 /*
 function drawCard;
 function hit() ; //draws a card

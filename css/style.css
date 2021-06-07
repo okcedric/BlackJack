@@ -12,7 +12,6 @@ h1{
 .container {
   max-width: 75vw;
   min-width: 400px;
-  display: flex;
   justify-content: center;
   align-items: center;
   /* background: tomato; */
@@ -24,6 +23,8 @@ h1{
 }
 .flex{
   display: flex;
+  justify-content: center;
+
 }
 
 .buttons .title{
@@ -33,7 +34,9 @@ h1{
 .hand{
   height: 35vh;
 }
-
+.score {
+  text-align: center;
+}
 .card {
 background: #E7E3DE;
 height: 126.25px;
