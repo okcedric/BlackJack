@@ -1,12 +1,26 @@
 body{
   margin : 0;
   background: #50A092;
+  color: #22333B;
   font-family: 'DM Sans', sans-serif;
 }
 
 h1{
+  text-align: left;
+  color: #22333B;
+}
+h2{
+  font-size: 1.25rem;
+  color: #22333B;
+}
+
+#msg{
+  display: hidden;
+  font-size: 3rem;
   text-align: center;
-  color: #353A3A;
+  padding: 1rem;
+  color: #E7E3DE;
+  background: #22333B;
 }
 
 .container {
@@ -16,7 +30,6 @@ h1{
   align-items: center;
   /* background: tomato; */
   margin: auto;
-
 }
 .col{
   width: 100%;
@@ -24,18 +37,18 @@ h1{
 .flex{
   display: flex;
   justify-content: center;
-
+  align-items: center;
 }
-
-.buttons .title{
-    height: 10vh;
+.title{
+  text-align: center;
 }
 
 .hand{
-  height: 35vh;
 }
 .score {
   text-align: center;
+  margin: 0;
+  padding-bottom: .5rem;
 }
 .card {
 background: #E7E3DE;
@@ -69,4 +82,29 @@ line-height: 5rem;
 }
 #draw{
 
+}
+#buttons{
+  height: 20vh;
+}
+button{
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: .5rem 1rem;
+  text-transform: uppercase;
+  margin: 0 .5rem;
+  border: none;
+  border-radius: 3px;
+}
+button:hover{
+  cursor: pointer;
+}
+
+#stay{
+  background: #CA5953;
+  color: #E7E3DE;
+}
+#hit{
+  background: #ADFC92;
+  color: #22333B;
 }

@@ -38,20 +38,24 @@ function shuffle(){
 var shoe=shuffle();
 var playerSide = document.getElementById('player-side');
 var casinoSide = document.getElementById('casino-side');
+var message = document.getElementById('msg');
 var playerHand = [];
 var casinoHand = [];
+var playerScore = 0;
+var casinoScore = 0;
+
 //makeBet
 
 function showCard(card, htmlCard){
   var corner = document.createElement("div");
   corner.className = "corner";
-  corner.innerHTML = card.rank + card.suit;
+  corner.innerHTML = card.rank;
   var suit = document.createElement("div");
   suit.className = "suit";
   suit.innerHTML = card.suit;
   // color of card
   if (card.suit == "♠" || card.suit == "♣"){
-    htmlCard.style.color = "#353A3A";
+    htmlCard.style.color = "#22333B";
 
   }else{
       htmlCard.style.color =  "#CA5953";
@@ -111,11 +115,13 @@ return score;
 
 function casinoDraw(){
   casinoHand.push(drawCard(casinoSide));
-  return scoreShow(scoreCalc(casinoHand),casinoSide);
+  casinoScore = scoreShow(scoreCalc(casinoHand),casinoSide);
+  return casinoScore;
 }
 function playerDraw(){
   playerHand.push(drawCard(playerSide));
-  return scoreShow(scoreCalc(playerHand),playerSide);
+  playerScore = scoreShow(scoreCalc(playerHand),playerSide);
+  return playerScore;
 }
 function reveal(){
   var htmlCard = document.getElementById('hidden');
@@ -128,8 +134,52 @@ function setGame(){
   casinoDraw();
   playerDraw();
   casinoHand.push(drawHidden());
+  addButtons();
   return playerDraw();
 }
-var playerScore = setGame();
 
-if playerScore
+function checkScore(){
+  if ((playerScore > 20) ||(playerScore == "BlackJack")) {
+    stay();
+  }
+}
+
+function casinoTurn(){
+casinoScore =  reveal();
+  console.log('Casino Turn ' + casinoScore);
+}
+function hideButtons(){
+  console.log('Hide the buttons!');
+  var buttons = document.getElementById('buttons');
+  var hitButton = document.getElementById('hit');
+  var stayButton = document.getElementById('stay');
+  buttons.removeChild(hitButton);
+  buttons.removeChild(stayButton);
+}
+function addButtons(){
+  var buttons = document.getElementById('buttons');
+  //'<button id="hit" type="button" name="button"> Hit </button>
+  //<button id="stay" type="button" name="button"> Stay</button>"'
+  var hitButton = document.createElement('button');
+  hitButton.setAttribute('id','hit');
+  hitButton.innerHTML = "hit";
+  var stayButton = document.createElement('button');
+  stayButton.setAttribute('id','stay');
+  stayButton.innerHTML = "stay";
+  buttons.appendChild(hitButton);
+  buttons.appendChild(stayButton);
+  hitButton.addEventListener('click',hit);
+  stayButton.addEventListener('click',stay);
+}
+
+function hit(){
+  playerScore = playerDraw();
+  checkScore();
+}
+
+function stay(){
+hideButtons();
+casinoTurn();
+}
+
+setGame();
