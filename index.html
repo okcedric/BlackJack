@@ -11,33 +11,28 @@
 </head>
 <body>
   <div class="title container">
-    <div class="flex">
+    <div class="col">
       <h1> Black Jack</h1>
-      <h2>Mise : 10€</h2>
     </div>
-  </div>
-
-  <div class="casino hand container">
-    <div class="flex">
-      <div class="first card">
-        <div class="corner">J♠</div>
-        <p class="suit">♠</p>
-      </div>
-      <div class="hidden card"></div>
+    <div class="col">
+      <h2>Cash : <span id="cash"></span>€</h2>
+      <h2>Mise : <span id="bet">10</span>€</h2>
     </div>
-  </div>
-  <div class="player hand container">
-    <div class="flex">
-      <div class="first card">
 
-      </div>
-      <div class="hidden card"></div>
+  </div>
+//
+<div id="tapis">
+    <div class="hand container">
+      <div id="casino-side" class="flex"></div>
+    </div>
+    <div class="hand container">
+      <div id="player-side" class="flex"></div>
     </div>
   </div>
 
   <div class="buttons container">
     <div class="flex">
-      <button id="draw" type="button" name="button"> carte </button>
+      <button id="hit" type="button" name="button"> Miser </button>
     </div>
   </div>
 

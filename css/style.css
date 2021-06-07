@@ -6,7 +6,7 @@ body{
 
 h1{
   text-align: center;
-  color: #062925;
+  color: #353A3A;
 }
 
 .container {
@@ -19,6 +19,12 @@ h1{
   margin: auto;
 
 }
+.col{
+  width: 100%;
+}
+.flex{
+  display: flex;
+}
 
 .buttons .title{
     height: 10vh;
@@ -29,38 +35,34 @@ h1{
 }
 
 .card {
-background: #FFF;
-height: 132px;
+background: #E7E3DE;
+height: 126.25px;
 width : 94.5px;
 border-radius: 5px;
-display: flex;
-flex-wrap: wrap;
-align-content: space-between;
-justify-content: space-between;
-
-
+margin: 1rem;
 }
+
+
+#hidden{
+  background-image: url('../img/dos.JPEG');
+  background-position: center center;
+  background-size: cover;
+}
+
 .corner{
   margin: 0 .5rem;
   font-size: 2rem;
-  height: 25%;
-  width: 100%;
 }
 .suit{
-
-  font-size: 8rem;
-    height: 75%;
-    width: 100%;
-    text-align: right;
-      margin: 1.5rem .5rem;
-    line-height: 2rem;
+font-size: 8rem;
+width: 100%;
+text-align: right;
+margin:0;
+line-height: 5rem;
 }
 
 .first{
 
-}
-.hidden{
-display : none;
 }
 #draw{
 
