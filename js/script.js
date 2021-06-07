@@ -4,6 +4,12 @@ class Card {
     this.suit = suit
   }
 }
+class Score {
+    constructor(num,text){
+    this.num = num,
+    this.suit = text
+  }
+}
 function  makeDeck(){
   var suits = ["♠","♥","♦","♣"] ;
   var ranks = ["K","Q","J","10","9","8","7","6","5","4","3","2","1"];
@@ -41,8 +47,8 @@ var casinoSide = document.getElementById('casino-side');
 var message = document.getElementById('msg');
 var playerHand = [];
 var casinoHand = [];
-var playerScore = 0;
-var casinoScore = 0;
+var playerScore = new Score(0,"début");
+var casinoScore = new Score(0,"début");
 
 //makeBet
 
@@ -84,14 +90,16 @@ return topCard
 //scoreCalc
 
 function scoreCalc(hand){
-  var score=0;
+  var num=0;
+  var text="";
+  var score = new Score;
   var anyAces = false;
 
   for (let card of hand ){
     if (!parseInt(card.rank)){
-      score +=10;
+      num+=10;
     }else{
-      score += parseInt(card.rank);
+      num += parseInt(card.rank);
       if (card.rank == 1){
         anyAces = true;
       }
@@ -99,17 +107,22 @@ function scoreCalc(hand){
 }
 
 // Ace's case
-if ((score == 11)&&(hand.length = 2) && (anyAces)){
-  score = 'BlackJack'
-}else if((score <12) && anyAces){
-  score = (score+10)+ " / " + score ;
+if ((num == 11)&&(hand.length = 2) && (anyAces)){
+  text = 'BlackJack';
+  num = 210;
+}else if((num <12) && anyAces){
+  text= (num+10)+ " / " + num ;
+}else {
+  text = num.toString();
 }
+score.num = num;
+score.text=text;
 return score ;
 }
 
 function scoreShow(score,side){
 var scoreHeader = side.nextElementSibling;
-scoreHeader.innerHTML = score;
+scoreHeader.innerHTML = score.text;
 return score;
 }
 
@@ -139,17 +152,54 @@ function setGame(){
 }
 
 function checkScore(){
-  if ((playerScore > 20) ||(playerScore == "BlackJack")) {
+  if (playerScore.num > 20){
     stay();
   }
 }
 
 function casinoTurn(){
-casinoScore =  reveal();
-  console.log('Casino Turn ' + casinoScore);
+
+  console.log('Casino Turn ' + casinoScore.text);
+  // wait :500MS
+  //Si playerScore.num === 210
+  if (playerScore.num ===210) {
+    if (casinoScore.num === 210 ){
+
+      console.log('push');
+
+    }else if(casinoScore.num === 21) {
+      //threeForTwo(); orange
+      console.log('threeForTwo');
+    }else{
+      //blackjack();
+      console.log('blackjack');
+    }
+  } else if (casinoScore.num === 210) {
+    //redBlackJack();
+    console.log('redBlackJack');
+  } else if (playerScore.num > 21) {
+    //lose();
+    console.log("lose");
+  }else if (casinoScore.num<17) {
+    casinoDraw();
+    casinoTurn();
+  }else if (casinoScore.num == playerScore.num) {
+    console.log("push");
+  }else if ((casinoScore.num< playerScore.num) || (casinoScore.num > 21)) {
+    console.log("WIN");
+  }else {
+    console.log("LOSE");
+  }
+
+  //Si 21 dépassé par joueur affiche LOSE en rouge;
+  //Si casinoScore.num<17 et casinoDraw and casino Turn;
+  // Fin
+  //Si casinoScore.num = playerScore.num affiche PUSH rend la mise
+  //Si casinoScore.num< playerScore.num OU casinoScore.num > 21 alors affiche WIN et paye à 2:1.
+  //else LOSE en rouge;
+
 }
 function hideButtons(){
-  console.log('Hide the buttons!');
   var buttons = document.getElementById('buttons');
   var hitButton = document.getElementById('hit');
   var stayButton = document.getElementById('stay');
@@ -179,6 +229,7 @@ function hit(){
 
 function stay(){
 hideButtons();
+casinoScore =  reveal();
 casinoTurn();
 }
 
