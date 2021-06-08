@@ -89,7 +89,7 @@ function scoreCalc(hand){
 }
 
 //determine score.text and add 10 to score num if there is at least one ace
-if ((num == 11)&&(hand.length = 2) && (anyAces)){
+if ((num == 11)&&(hand.length == 2) && (anyAces)){
   text = 'BlackJack';
   num = 210;
 }else if((num <12) && anyAces){
