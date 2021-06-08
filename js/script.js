@@ -203,14 +203,14 @@ function casinoTurn(){
   if (playerScore.num ===210) {
     if (casinoScore.num === 210 ){
 
-      say('push','#E7E3DE');
+      say('push','#22333B');
 
     }else if(casinoScore.num === 21) {
       //threeForTwo(); orange
       say('BlackJack','#CAA953');
     }else{
       //blackjack();
-      say('BlackJack','#ADFC92');
+      say('BlackJack','#FCE762');
     }
   } else if (casinoScore.num === 210) {
     //redBlackJack();
@@ -220,11 +220,11 @@ function casinoTurn(){
     say('Lose','#CA5953');
   }else if (casinoScore.num < 17) {
     draw(casinoSide);
-    casinoTurn();
+      setTimeout(() => {casinoTurn(); }, 500);
   }else if (casinoScore.num == playerScore.num) {
-      say('push','#E7E3DE');
+        say('push','#22333B');
   }else if ((casinoScore.num< playerScore.num) || (casinoScore.num > 21)) {
-    say('Win','#ADFC92');
+    say('Win','#FCE762');
   }else {
     say('Lose','#CA5953');
   }
@@ -255,7 +255,7 @@ function say(text,color){
 function stay(){
   hideButtons();
   reveal();
-  casinoTurn();
+  setTimeout(() => {casinoTurn(); }, 500);
 }
 
 shuffle();
