@@ -26,6 +26,7 @@ const deck=makeDeck();
 var cash = 1000;
 var cardCount;
 var bet;
+var shoe=[] ;
 function shuffle(){
   //create an ordered shoe of 6 decks
   var orderedShoe = [];
@@ -33,7 +34,6 @@ function shuffle(){
     orderedShoe = orderedShoe.concat(deck);
   }
   //create a shuffled shoe of 6 decks
-  var shoe=[] ;
   while(orderedShoe.length >0){
     var i = Math.floor(Math.random()*(orderedShoe.length+1)); //pick a random index of orderedShoe
     shoe = shoe.concat(orderedShoe.splice(i,1));// take card of that index and put in the shoe
@@ -41,7 +41,6 @@ function shuffle(){
   return shoe;
 }
 
-var shoe=shuffle();
 var playerSide = document.getElementById('player-side');
 var casinoSide = document.getElementById('casino-side');
 var message = document.getElementById('msg');
@@ -52,7 +51,8 @@ var casinoScore = new Score(0,"début");
 
 //makeBet
 
-function showCard(card, htmlCard){
+// print face of a card on an div with class of card
+function renderCard(card, htmlCard){
   var corner = document.createElement("div");
   corner.className = "corner";
   corner.innerHTML = card.rank;
@@ -69,23 +69,6 @@ function showCard(card, htmlCard){
   htmlCard.appendChild(corner);
   htmlCard.appendChild(suit);
 }
-//drawCard
-function drawCard(side) {
-  var card = shoe.shift();
-  var htmlCard = document.createElement("div");
-  htmlCard.className = "card";
-  showCard(card,htmlCard);
-  side.appendChild(htmlCard);
-  return card;
-}
-function drawHidden(){
-  var topCard = shoe.shift();
-  var card = document.createElement("div");
-  card.className = "card";
-  card.setAttribute('id','hidden');
-casinoSide.appendChild(card);
-return topCard
-}
 
 //scoreCalc
 
@@ -94,7 +77,7 @@ function scoreCalc(hand){
   var text="";
   var score = new Score;
   var anyAces = false;
-
+// sum the hand value and scan for aces
   for (let card of hand ){
     if (!parseInt(card.rank)){
       num+=10;
@@ -106,12 +89,13 @@ function scoreCalc(hand){
     }
 }
 
-// Ace's case
+//determine score.text and add 10 to score num if there is at least one ace
 if ((num == 11)&&(hand.length = 2) && (anyAces)){
   text = 'BlackJack';
   num = 210;
 }else if((num <12) && anyAces){
   text= (num+10)+ " / " + num ;
+  num = num +10;
 }else {
   text = num.toString();
 }
@@ -126,29 +110,53 @@ scoreHeader.innerHTML = score.text;
 return score;
 }
 
-function casinoDraw(){
-  casinoHand.push(drawCard(casinoSide));
-  casinoScore = scoreShow(scoreCalc(casinoHand),casinoSide);
-  return casinoScore;
+//draw a Card and put i
+function draw(side) {
+  //get first card from the shoe and put it i,n hand
+  var card = shoe.shift();
+  //get for the hand
+  if (side === casinoSide){
+    casinoHand.push(card);
+    var score =scoreCalc(casinoHand);
+    casinoScore=score;
+  }else {
+    playerHand.push(card);
+    var score =scoreCalc(playerHand);
+    playerScore= score ;
+  }
+  //generate blank card, render it in the hand
+  var htmlCard = document.createElement("div");
+  htmlCard.className = "card";
+  renderCard(card,htmlCard);
+  side.appendChild(htmlCard);
+  scoreShow(score,side);
+  return score;
 }
-function playerDraw(){
-  playerHand.push(drawCard(playerSide));
-  playerScore = scoreShow(scoreCalc(playerHand),playerSide);
-  return playerScore;
+function drawHidden(){
+  var topCard = shoe.shift();
+  var card = document.createElement("div");
+  card.className = "card";
+  card.setAttribute('id','hidden');
+  casinoSide.appendChild(card);
+  return topCard
 }
+
 function reveal(){
   var htmlCard = document.getElementById('hidden');
   htmlCard.setAttribute('id','revealed');
   var card = casinoHand[1];
-  showCard(card,htmlCard);
-  return scoreShow(scoreCalc(casinoHand),casinoSide);
+
+  renderCard(card,htmlCard);
+  casinoScore = scoreCalc(casinoHand);
+  scoreShow(casinoScore,casinoSide);
 }
+
 function setGame(){
-  casinoDraw();
-  playerDraw();
+  draw(casinoSide);
+  draw(playerSide);
   casinoHand.push(drawHidden());
   addButtons();
-  return playerDraw();
+  return draw(playerSide);
 }
 
 function checkScore(){
@@ -158,8 +166,6 @@ function checkScore(){
 }
 
 function casinoTurn(){
-
-  console.log('Casino Turn ' + casinoScore.text);
   // wait :500MS
   //Si playerScore.num === 210
   if (playerScore.num ===210) {
@@ -180,8 +186,8 @@ function casinoTurn(){
   } else if (playerScore.num > 21) {
     //lose();
     console.log("lose");
-  }else if (casinoScore.num<17) {
-    casinoDraw();
+  }else if (casinoScore.num < 17) {
+    draw(casinoSide);
     casinoTurn();
   }else if (casinoScore.num == playerScore.num) {
     console.log("push");
@@ -208,11 +214,11 @@ function hideButtons(){
 }
 function addButtons(){
   var buttons = document.getElementById('buttons');
-  //'<button id="hit" type="button" name="button"> Hit </button>
-  //<button id="stay" type="button" name="button"> Stay</button>"'
+  //'<button id="hit"> hit </button>
   var hitButton = document.createElement('button');
   hitButton.setAttribute('id','hit');
   hitButton.innerHTML = "hit";
+  //<button id="stay"> stay</button>"'
   var stayButton = document.createElement('button');
   stayButton.setAttribute('id','stay');
   stayButton.innerHTML = "stay";
@@ -223,14 +229,15 @@ function addButtons(){
 }
 
 function hit(){
-  playerScore = playerDraw();
+  draw(playerSide);
   checkScore();
 }
 
 function stay(){
-hideButtons();
-casinoScore =  reveal();
-casinoTurn();
+  hideButtons();
+  reveal();
+  casinoTurn();
 }
 
+shuffle();
 setGame();
