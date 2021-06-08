@@ -43,7 +43,6 @@ function shuffle(){
 
 var playerSide = document.getElementById('player-side');
 var casinoSide = document.getElementById('casino-side');
-var message = document.getElementById('msg');
 var playerHand = [];
 var casinoHand = [];
 var playerScore = new Score(0,"début");
@@ -152,6 +151,10 @@ function reveal(){
 }
 
 function setGame(){
+  playerHand = [];
+  casinoHand = [];
+  playerScore = new Score(0,"début");
+  casinoScore = new Score(0,"début");
   draw(casinoSide);
   draw(playerSide);
   casinoHand.push(drawHidden());
@@ -166,46 +169,7 @@ function checkScore(){
   }
 }
 
-function casinoTurn(){
-  // wait :500MS
-  //Si playerScore.num === 210
-  if (playerScore.num ===210) {
-    if (casinoScore.num === 210 ){
 
-      console.log('push');
-
-    }else if(casinoScore.num === 21) {
-      //threeForTwo(); orange
-      console.log('threeForTwo');
-    }else{
-      //blackjack();
-      console.log('blackjack');
-    }
-  } else if (casinoScore.num === 210) {
-    //redBlackJack();
-    console.log('redBlackJack');
-  } else if (playerScore.num > 21) {
-    //lose();
-    console.log("lose");
-  }else if (casinoScore.num < 17) {
-    draw(casinoSide);
-    casinoTurn();
-  }else if (casinoScore.num == playerScore.num) {
-    console.log("push");
-  }else if ((casinoScore.num< playerScore.num) || (casinoScore.num > 21)) {
-    console.log("WIN");
-  }else {
-    console.log("LOSE");
-  }
-
-  //Si 21 dépassé par joueur affiche LOSE en rouge;
-  //Si casinoScore.num<17 et casinoDraw and casino Turn;
-  // Fin
-  //Si casinoScore.num = playerScore.num affiche PUSH rend la mise
-  //Si casinoScore.num< playerScore.num OU casinoScore.num > 21 alors affiche WIN et paye à 2:1.
-  //else LOSE en rouge;
-
-}
 function hideButtons(){
   var buttons = document.getElementById('buttons');
   var hitButton = document.getElementById('hit');
@@ -232,6 +196,60 @@ function addButtons(){
 function hit(){
   draw(playerSide);
   checkScore();
+}
+function casinoTurn(){
+  // wait :500MS
+  //Si playerScore.num === 210
+  if (playerScore.num ===210) {
+    if (casinoScore.num === 210 ){
+
+      say('push','#E7E3DE');
+
+    }else if(casinoScore.num === 21) {
+      //threeForTwo(); orange
+      say('BlackJack','#CAA953');
+    }else{
+      //blackjack();
+      say('BlackJack','#ADFC92');
+    }
+  } else if (casinoScore.num === 210) {
+    //redBlackJack();
+    say('BlackJack','#CA5953');
+  } else if (playerScore.num > 21) {
+    //lose();
+    say('Lose','#CA5953');
+  }else if (casinoScore.num < 17) {
+    draw(casinoSide);
+    casinoTurn();
+  }else if (casinoScore.num == playerScore.num) {
+      say('push','#E7E3DE');
+  }else if ((casinoScore.num< playerScore.num) || (casinoScore.num > 21)) {
+    say('Win','#ADFC92');
+  }else {
+    say('Lose','#CA5953');
+  }
+}
+
+var popup = document.getElementById('popup');
+var overlay = document.getElementById('overlay');
+
+function replay(){
+  overlay.style.display = "none";
+  //remove card on screen
+  casinoSide.innerHTML = '';
+  playerSide.innerHTML='';
+  setGame();
+}
+function say(text,color){
+  // change text
+  popup.innerHTML = text;
+  // change couleur
+  popup.style.color = color;
+  //display overlay
+  overlay.style.display = "block";
+  console.log(text);
+  //au click replay()
+  overlay.addEventListener('click', replay);
 }
 
 function stay(){
