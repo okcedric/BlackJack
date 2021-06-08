@@ -56,6 +56,7 @@ height: 24vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 background: #E7E3DE;
 height: 12Vh;
 width : 9vh;
