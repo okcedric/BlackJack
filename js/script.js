@@ -156,7 +156,8 @@ function setGame(){
   draw(playerSide);
   casinoHand.push(drawHidden());
   addButtons();
-  return draw(playerSide);
+  draw(playerSide);
+  checkScore();
 }
 
 function checkScore(){
