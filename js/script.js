@@ -247,7 +247,6 @@ function say(text,color){
   popup.style.color = color;
   //display overlay
   overlay.style.display = "block";
-  console.log(text);
   //au click replay()
   overlay.addEventListener('click', replay);
 }

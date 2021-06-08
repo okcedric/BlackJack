@@ -4,10 +4,10 @@ body{
   color: #22333B;
   font-family: 'DM Sans', sans-serif;
   text-align: center;
+  overflow: hidden;
 }
 
 h1{
-  text-align: left;
   color: #22333B;
 }
 h2{
@@ -32,12 +32,14 @@ h2{
   align-items: center;
 }
 #title{
-height: 20vh;
+height: 24vh;
 }
 #buttons{
-  height: 20vh;
+  height: 24vh;
 }
 #tapis{
+  display: flex;
+  flex-direction: column;
   height: 50vh;
 }
 #casino{
@@ -46,7 +48,7 @@ height: 20vh;
 .hand{
 }
 .score {
-  margin: 0;
+  margin: 1rem;
   padding-bottom: .5rem;
 }
 .card {
@@ -59,6 +61,8 @@ height: 12Vh;
 width : 9vh;
 border-radius: 5px;
 margin: 0 -.5rem;
+animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: .5s; /* don't forget to set a duration! */
 }
 
 
@@ -127,17 +131,21 @@ button:hover{
   opacity: 1;
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
+  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: .5s; /* don't forget to set a duration! */
 }
 
 #popup{
-  color :#ADFC92;
+  color: #ADFC92;
   width: 100VW;
   text-transform: uppercase;
   display: block;
   font-size: 3rem;
   margin: auto;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  /* background-color: #E7E3DE90; */
+  padding:1em 0;
 }
